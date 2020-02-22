@@ -1,7 +1,8 @@
 #tooltip {
-  background-color: white;
+  background-color: rebeccapurple;
   border-radius: 5px;
-  box-shadow: 0 1px 2px black;
+  box-shadow: 0 1px 2px darkblue;
+  color: white;
   display: block;
   padding: 10px;
   pointer-events: none;
@@ -9,6 +10,7 @@
   visibility: hidden;
   white-space: nowrap;
   z-index: 999;
+  font-size: 14px;
 }
 #tooltip.show {
   display: block;
@@ -17,4 +19,8 @@
   top: 0;
   transition: all .3s ease;
   visibility: visible;
+}
+
+#tooltip a {
+  color: white;
 }
