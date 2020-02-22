@@ -29,6 +29,11 @@ class Tooltip {
     if(!this.el) {
       this.el = document.createElement('div');
       this.el.setAttribute('id', 'tooltip');
+
+      this.elContent = document.createElement('div');
+      this.elContent.classList.add('tooltip__content');
+      this.el.appendChild(this.elContent);
+
       document.body.append(this.el);
   
       this.el.addEventListener('mouseover', this.cancelHideTooltip.bind(this));
@@ -63,11 +68,12 @@ class Tooltip {
   }
 
   showTooltip (target, content, position) {
-    this.el.innerHTML = content;
+    this.elContent.innerHTML = content;
+    this.el.setAttribute('class','');
 
     target.addEventListener('mouseleave',this.scheduleHideTooltip.bind(this));
 
-    let tooltipCoords = this.positionTooltip(target, position)
+    let tooltipCoords = this.positionTooltip(target, position);
 
     this.el.style.left = `${tooltipCoords.x}px`;
     this.el.style.top = `${tooltipCoords.y}px`;
@@ -86,6 +92,8 @@ class Tooltip {
 
   positionTooltip (target, position) {
     position = position || 'top';
+    this.el.classList.remove('position--top', 'position--bottom');
+    this.el.classList.add(`position--${position}`);
 
     let targetCoords = target.getBoundingClientRect();
     let tooltipCoords = this.el.getBoundingClientRect();
@@ -131,8 +139,8 @@ class Tooltip {
   }
 
   hideTooltip () {
-    this.el.classList.remove('show');
-    this.el.innerHTML = '';
+    this.el.setAttribute('class','');
+    this.elContent.innerHTML = '';
     this.el.setAttribute('style','');
   }
 
