@@ -25,12 +25,15 @@ class Tooltip {
     this.positionTag = 'data-tooltip-position';
     this.selector = `*[${this.contentTag}]`;
 
-    this.el = document.createElement('div');
-    this.el.setAttribute('id', 'tooltip');
-    document.body.append(this.el);
-
-    this.el.addEventListener('mouseover', this.cancelHideTooltip.bind(this));
-    this.el.addEventListener('mouseleave', this.scheduleHideTooltip.bind(this));
+    this.el = document.getElementById('tooltip');
+    if(!this.el) {
+      this.el = document.createElement('div');
+      this.el.setAttribute('id', 'tooltip');
+      document.body.append(this.el);
+  
+      this.el.addEventListener('mouseover', this.cancelHideTooltip.bind(this));
+      this.el.addEventListener('mouseleave', this.scheduleHideTooltip.bind(this));
+    }
 
     document.body.addEventListener('mouseover',this.onMouseOver.bind(this));
   }
