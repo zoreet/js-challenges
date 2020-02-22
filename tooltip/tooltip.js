@@ -19,10 +19,9 @@
 class Tooltip {
 
   constructor () {
-    this.tag = 'data-tooltip-content';
-    this.selector = `*[${this.tag}]`;
-
-    document.body.addEventListener('mouseover',this.onMouseOver.bind(this));
+    this.contentTag = 'data-tooltip-content';
+    this.positionTag = 'data-tooltip-position';
+    this.selector = `*[${this.contentTag}]`;
 
     this.el = document.createElement('div');
     this.el.setAttribute('id', 'tooltip');
@@ -30,6 +29,8 @@ class Tooltip {
 
     this.el.addEventListener('mouseover', this.cancelHideTooltip.bind(this));
     this.el.addEventListener('mouseleave', this.scheduleHideTooltip.bind(this));
+
+    document.body.addEventListener('mouseover',this.onMouseOver.bind(this));
   }
 
   onMouseOver (event) {
@@ -39,9 +40,9 @@ class Tooltip {
       let position;
       this.cancelHideTooltip();
 
-      content = target.attributes['data-tooltip-content'].value;
-      if(target.attributes['data-tooltip-position']) {
-        position = target.attributes['data-tooltip-position'].value;
+      content = target.attributes[this.contentTag].value;
+      if(target.attributes[this.positionTag]) {
+        position = target.attributes[this.positionTag].value;
         this.showTooltip(target, content, position);
       } else {
         this.showTooltip(target, content, 'top');
@@ -124,7 +125,7 @@ class Tooltip {
   }
 
   isTooltip (el) {
-    return !!el.attributes[this.tag];
+    return !!el.attributes[this.contentTag];
   }
 }
 
