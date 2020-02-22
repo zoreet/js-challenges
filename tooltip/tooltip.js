@@ -3,16 +3,14 @@
 //    + easy to set up
 //    + same place as hovered element
 // based on js:
+//    + avoid bloated HTML
 //    + easy to pass complex options, like objects
 //    + easy to add to multiple elements in one go
 //    + easy to add to dynamically added elements
 //
 // TODO
-// - prevent overflow
-// - multiple positions
 // - input elements
 // - a11y
-// - delay hide/show
 // - nested tooltips
 //
 // TODO LEARN
