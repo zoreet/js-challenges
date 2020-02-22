@@ -9,6 +9,7 @@
 //    + easy to add to dynamically added elements
 //
 // TODO
+// - trigger on click
 // - input elements
 // - a11y
 // - nested tooltips
@@ -20,6 +21,7 @@ class Tooltip {
 
   constructor () {
     this.contentTag = 'data-tooltip-content';
+    this.contentSelectorTag = 'data-tooltip-content-selector';
     this.positionTag = 'data-tooltip-position';
     this.selector = `*[${this.contentTag}]`;
 
@@ -36,16 +38,22 @@ class Tooltip {
   onMouseOver (event) {
     let target = event.target;
     if (this.isTooltip(event.target)) {
-      let content;
-      let position;
       this.cancelHideTooltip();
 
-      content = target.attributes[this.contentTag].value;
+      let content;
+
+      if(target.attributes[this.contentTag]) {
+        content = target.attributes[this.contentTag].value;
+      } else if(target.attributes[this.contentSelectorTag]) {
+        let contentSelector = target.attributes[this.contentSelectorTag].value;
+        content = document.querySelector(contentSelector).innerHTML;
+      }
+
       if(target.attributes[this.positionTag]) {
-        position = target.attributes[this.positionTag].value;
+        let position = target.attributes[this.positionTag].value;
         this.showTooltip(target, content, position);
       } else {
-        this.showTooltip(target, content, 'top');
+        this.showTooltip(target, content);
       }
 
     }
@@ -74,8 +82,7 @@ class Tooltip {
   }
 
   positionTooltip (target, position) {
-    // position
-    position = position || '';
+    position = position || 'top';
 
     let targetCoords = target.getBoundingClientRect();
     let tooltipCoords = this.el.getBoundingClientRect();
@@ -97,7 +104,8 @@ class Tooltip {
     }
 
     let positionY = 0;
-    if (position.includes('top') || position === '') {
+
+    if (position === 'top') {
       positionY = targetCoords.y - tooltipCoords.height;
     } else {
       positionY = targetCoords.y + targetCoords.height;
@@ -122,10 +130,20 @@ class Tooltip {
   hideTooltip () {
     this.el.classList.remove('show');
     this.el.innerHTML = '';
+    this.el.setAttribute('style','');
   }
 
   isTooltip (el) {
-    return !!el.attributes[this.contentTag];
+    if(el.attributes[this.contentTag]) {
+      return true
+    }
+
+    if(el.attributes[this.contentSelectorTag]) {
+      let contentSelector = el.attributes[this.contentSelectorTag].value;
+      return !!document.querySelector(contentSelector);
+    }
+    
+    return false;
   }
 }
 
