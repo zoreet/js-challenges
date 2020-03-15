@@ -1,0 +1,35 @@
+#tooltip {
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+  z-index: 999;
+}
+.tooltip__content {
+  background-color: rebeccapurple;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px darkblue;
+  color: white;
+  padding: 10px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+#tooltip.show {
+  display: block;
+  left: 0;
+  pointer-events: all;
+  top: 0;
+  visibility: visible;
+}
+
+#tooltip.position--top {
+  padding-bottom: 10px;
+}
+
+#tooltip.position--bottom {
+  padding-top: 10px;
+}
+
+#tooltip a {
+  color: white;
+}
